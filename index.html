@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="alert alert-{{message.tags}}"></div>
+        <h1 class="product_name">Add Product</h1>
+        <form method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md">
+                    <div class="form-group">
+                        <label for="ProductName">Product Name</label>
+                        <input type="text" class="form-control" id="ProductName" name="prod_name"
+                            placeholder="Enter Product Name" required="">
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <label for="ProductName">Category</label>
+                    <select class="form-select" name="category" id="id_category">
+                        <option selected="">-----</option>
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="ProductName">SubCategory</label>
+                    <select class="form-select" name="subcategory" id="id_subcategory">
+                        <option selected="">-----</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="ProductName">Price</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-inr" aria-hidden="true"></i></span>
+                        </div>
+                        <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)"
+                            name="price" required="" style="height: 30px;">
+
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="ProductName">Price Not</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fa fa-inr" aria-hidden="true"></i></span>
+                        </div>
+                        <input type="number" class="form-control" aria-label="Amount (to the nearest dollar)"
+                            name="price_not" required="" style="height: 30px;">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                            style="margin-bottom: 20px;"></textarea>
+                        <label for="floatingTextarea2">Description</label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">GST</label>
+                        </div>
+                        <select class="form-select" id="inputGroupSelect01" name="gst">
+                            <option value="0" selected="">0%</option>
+                            <option value="3">3%</option>
+                            <option value="5">5%</option>
+                            <option value="12">12%</option>
+                            <option value="18">18%</option>
+                            <option value="28">28%</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <label for="ProductName">Images</label>
+            <div class="row">
+                <div class="col-md">
+                    <input type="file" name="image1" accept="image/*" class="clearablefileinput form-control"
+                        required="">
+                </div>
+                <div class="col-md">
+                    <input type="file" name="image2" accept="image/*" class="clearablefileinput form-control">
+                </div>
+                <div class="col-md">
+                    <input type="file" name="image3" accept="image/*" class="clearablefileinput form-control">
+                </div>
+                <div class="col-md">
+                    <input type="file" name="image4" accept="image/*" class="clearablefileinput form-control">
+                </div>
+                <div class="col-md">
+                    <input type="file" name="image5" accept="image/*" class="clearablefileinput form-control">
+                </div>
+            </div>
+            <label class="enter_label">Enter Size and Quantity</label>
+            <div class="row-pb-1" id="sizes">
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input type="text" aria-label="Size" class="form-control" placeholder="Size" name="size1">
+                        <input type="number" aria-label="Quantity" class="form-control" placeholder="Quantity"
+                            name="quantity1">
+                        <i class="fa fa-plus-circle pt-1" aria-hidden="true" style="font-size: 30px; margin-left: 20px;"
+                            onclick="addsizequn()" id="pls"></i>
+                    </div>
+
+                </div>
+                <input type="number" name="size_no" style="display: none;" id="size_no" value="1">
+
+            </div>
+            <button type="submit" class="btn btn-secondary" style="margin: 10px 415px; width: 300px;">Add</button>
+        </form>
+    </div>
+    <hr class="mr-5 ml-5 pb-2">
+    <div class="container">
+        <h5 style="text-align: center; font-weight: bold;">Products in Your Store! <a href="{% url 'view_products' %}"
+                class="link-primary" style="text-decoration: none;"><i class="fa fa-eye" aria-hidden="true"
+                    style="color:#0a58ca"></i>View
+                All</a></h5>
+
+        <input type="text" name="pro_id" value="{{pr.product_id}}" readonly="" style="display: none;">
+        <table class="table table-dark table-striped ">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Product Id</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">category</th>
+                    <th scope="col">SubCategory</th>
+                    <th scope="col">price</th>
+                    <th scope="col"><i class="fa fa-trash" aria-hidden="true"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">46465456</th>
+                    <td>Milk</td>
+                    <td>Sut mahsuloti</td>
+                    <td>Mahsulot</td>
+                    <td>900$</td>
+                    <form>sdcdsds</form>
+                    <td>
+                        <button type="submit" class="btn btn-secondary"><i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</body>
+
+</html>
